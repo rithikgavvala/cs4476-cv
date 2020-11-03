@@ -3,7 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <title>Computer Vision Class Project
-  | ECE, Virginia Tech | Fall 2015: ECE 5554/4984</title>
+  | Fall 2020: CS 4476 Computer Vision</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -34,13 +34,11 @@ color: #FF9900;
 <div class="page-header">
 
 <!-- Title and Name --> 
-<h1>Your Title Here</h1> 
-<span style="font-size: 20px; line-height: 1.5em;"><strong>Your Name Here</strong></span><br>
-<span style="font-size: 18px; line-height: 1.5em;">Fall 2015 ECE 5554/4984 Computer Vision: Class Project</span><br>
-<span style="font-size: 18px; line-height: 1.5em;">Virginia Tech</span>
+<h1>Mask Detection</h1> 
+<span style="font-size: 20px; line-height: 1.5em;"><strong>Rithik Gavvala, Mithil Verma, Nandin Padheriya, Vamsi Desu, and Sahiti Baddula</strong></span><br>
+<span style="font-size: 18px; line-height: 1.5em;">Fall 2020 CS 4476 Computer Vision: Class Project</span><br>
+<span style="font-size: 18px; line-height: 1.5em;">Georgia Tech</span>
 <hr>
-
-Please see <a href="http://vision.cs.utexas.edu/projects/adapted_attributes/">this</a> for an example of how to lay out the various details of your project. You may need to provide more details than this, beause you will not be submitting an associated paper to accompany the webpage. So the page should be self-contained
 
 <!-- Goal -->
 <h3>Abstract</h3>
@@ -49,44 +47,56 @@ One or two sentences on the motivation behind the problem you are solving. One o
 <br><br>
 <!-- figure -->
 <h3>Teaser figure</h3>
-A figure that conveys the main idea behind the project or the main application being addressed.
 <br><br>
 <!-- Main Illustrative Figure --> 
 <div style="text-align: center;">
-<img style="height: 200px;" alt="" src="mainfig.png">
+<img style="height: 300px;" alt="" src="teaser.png">
 </div>
 
 <br><br>
 <!-- Introduction -->
 <h3>Introduction</h3>
-Motivation behind the problem you are solving, what applications it has, any brief background on the particular domain you are working in (if not regular RBG photographs), etc. If you are using a new way to solve an existing problem, briefly mention and describe the existing approaches and tell us how your approach is new.
-
+During the COVID pandemic, many health organizations have urged people to wear facial coverings or masks to prevent the spread of coronavirus. This has led to many offices and other establishments that require in-person activity to enforce wearing masks. Our system will enable establishments to determine whether a person is wearing a mask. To solve this problem, we will be using convolutional neural networks, which consists of multiple of convolutional layers, to classify those who are wearing masks and those who are not.
 <br><br>
 <!-- Approach -->
 <h3>Approach</h3>
-Describe very clearly and systematically your approach to solve the problem. Tell us exactly what existing implementations you used to build your system. Tell us what obstacles you faced and how you addressed them. Justify any design choices or judgment calls you made in your approach.
+There are two main technical approaches we can take. First, we can implement a convolutional neural network as our first model using Python and Numpy. The second approach is to produce vector features from scale-invariant feature  transform, gray level co-occurrence matrix,  and local binary pattern. These are various feature extractors that we can use for classification. Afterwards, for each output from each of the feature extractors ,we will split this into more experiments with principal component analysis. We will have three experiments with using PCA and without using PCA. Lastly, we will use the features selected previously and use SVM to fit the data. Then, we will use our predicting set and predict the images and evaluate based on accuracy, precision, and recall.     
+
 
 <br><br>
 <!-- Results -->
 <h3>Experiments and results</h3>
-Provide details about the experimental set up (number of images/videos, number of datasets you experimented with, train/test split if you used machine learning algorithms, etc.). Describe the evaluation metrics you used to evaluate how well your approach is working. Include clear figures and tables, as well as illustrative qualitative examples if appropriate. Be sure to include obvious baselines to see if your approach is doing better than a naive approach (e.g. for classification accuracy, how well would a classifier do that made random decisions?). Also discuss any parameters of your algorithms, and tell us how you set the values of those parameters. You can also show us how the performance varies as you change those parameter values. Be sure to discuss any trends you see in your results, and explain why these trends make sense. Are the results as expected? Why?
+When we first retrieved the data, there were roughly 6 different columns, where the name represented the name of the image in the training set, x1 through y2 represented the position/coordinates of the person's face who was wearing the mask, and the classname printed symbols that depicted whether the person was wearing a mask, not wearing a mask, wearing a mask incorrectly etc. In order to start on cleaning the data we first decided to  change the values in the image name column so that the values were now pointing to the actual file path of the image. Thus, calling and loading image would be much simpler as it would simply take a query to the name column in order to read in an image. <br>
+<br>
+Next we noticed that many of the image names in the data frame were being repeated. The reason for this was because many images had many different people present in them. Thus, each separate image entry had coordinates for a separate person wearing a separate mask, in order to simplify the data frame, we thus, went through the entries and appended the coordinates present in the same image, into one entry, under a column called commonPosition. By doing so, it was a lot easier for us to reference one image at a time since now, each row simply catered to the features of one individual image. Since we had this new accumulation of coordinate points, we were able to drop our x1 through y2 columns. <br><br>
+
+Lastly, we saw that the dataset had a random array of labels foreach image. Even though there were labels such as "face_with_mask_incorrect", "face_with_mask", and "gas_mask" (which were somewhat related to our topic since they still covered the nose and mouth) there were also labels such as "mask_colorful" and "hat" which did not make any sense to us. Thus, we kept it simple and bundled all labels that were of use to us into one collective label called "face_with_mask" and certain other ones into a category known as "mask_incorrect". Simplifying the labels up tot his point made it a lot easier for us to go ahead and run our Sequencer model in order to properly train our dataset and later on fit it to images we would try to predict. <br>
 
 <br><br>
 
 <!-- Main Results Figure --> 
-<div style="text-align: center;">
-<img style="height: 300px;" alt="" src="results.png">
+<div>
+  <div style="text-align: center;">
+    <img style="height: 200px;" alt="" src="barchart.png">
+    </div>
+    <div style="text-align: center;">
+      <img style="height: 200px;" alt="" src="table.png">
+      </div>
+      <div style="text-align: center;">
+        <img style="height: 200px;" alt="" src="table2.png">
+        </div>
+
 </div>
+
 <br><br>
 
 <!-- Results -->
 <h3>Qualitative results</h3>
-Show several visual examples of inputs/outputs of your system (success cases and failures) that help us better understand your approach.
 <br><br>
 
 <!-- Main Results Figure --> 
 <div style="text-align: center;">
-<img style="height: 300px;" alt="" src="qual_results.png">
+<img style="height: 300px;" alt="" src="boundingbox.png">
 </div>
 <br><br>
 
