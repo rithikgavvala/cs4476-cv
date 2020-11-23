@@ -64,10 +64,10 @@ When we first retrieved the data, there were roughly 6 different columns, where 
 <br>
 Next we noticed that many of the image names in the data frame were being repeated. The reason for this was because many images had many different people present in them. Thus, each separate image entry had coordinates for a separate person wearing a separate mask, in order to simplify the data frame, we thus, went through the entries and appended the coordinates present in the same image, into one entry, under a column called commonPosition. By doing so, it was a lot easier for us to reference one image at a time since now, each row simply catered to the features of one individual image. Since we had this new accumulation of coordinate points, we were able to drop our x1 through y2 columns. <br><br>
 
-
-
-
 Lastly, we saw that the dataset had a random array of labels foreach image. Even though there were labels such as "face_with_mask_incorrect", "face_with_mask", and "gas_mask" (which were somewhat related to our topic since they still covered the nose and mouth) there were also labels such as "mask_colorful" and "hat" which did not make any sense to us. Thus, we kept it simple and bundled all labels that were of use to us into one collective label called "face_with_mask" and certain other ones into a category known as "mask_incorrect". Simplifying the labels up tot his point made it a lot easier for us to go ahead and run our Sequencer model in order to properly train our dataset and later on fit it to images we would try to predict.
+
+<br><br>
+Our first approach was to build a simple convolutional neural network. That network consisted of one convolutional layer, two pooling layers, and one dense layer(regular densely-connected NN layer). When training on model, we saw an accuracy of 85% and loss of .38. This was a great starting point for our project, as we understood that convolutional neural networks were best way to classify for our dataset. However, our group knew that the model still has some improvements that could be made. A model with 85% accuracy would not be an effective model in the real world, as businesses would have to inquire about false positives or false negatives for around fifteen out of every hundred images. Extracting features and tuning our hyperparameters were our focus from this point. Next, we added another convolutional layer and dense layer. We were expecting the model to learn more features from our training data set and have a higher accuracy rate. However, the model had only a 85% accuracy rate, which means there was no improvement from the earlier model. Therefore, we decided to focus on other parameters. We then changed our optimizer from Adadelta to Adam and that resulted in an accuracy of 86%. This also resulted in little to no improvement. Adaptive Moment Estimation (Adam) is another method that computes adaptive learning rates for each parameter. In addition to storing an exponentially decaying average of past squared gradients like Adadelta and RMSprop, Adam also keeps an exponentially decaying average of past gradients. We were puzzled as to how to achieve a better accuracy. However, we increased the number of epochs we ran and decreased our batch size. These changes saw a large improvement to our accuracy rate, resulting in 96% accuracy. Adjusting batch size and epochs helped minimize our loss because the model trains more and more with a larger epoch size and usually results in better fitted data. However, overfitting may be an issue, so we also experimented with the number of epochs to avoid overfitting.
 <br> <br>
 We then focused on building our model out. We had 2 convolution layers for extracting features in our neural network. This network also has two dense layers and two pooling layers. We had some trouble understanding how to work with each layer, but we experimented with these models to get the final result.
 
@@ -79,7 +79,18 @@ We then focused on building our model out. We had 2 convolution layers for extra
 <br><br>
 <!-- Results -->
 <h3>Experiments and results</h3>
+
 We primarily used loss as an indicator to understand how well our approach was doing. In our figure, we show the loss decreasing as our epochs increase. In addition, the bar plot shows the number of pictures with masks versos the number of pictures that don’t contain masks. The first baseline is the random model, which randomly picks between the two options. This gives us an accuracy of 50%. Afterwards, we built for sequential model with 2 convolutional layers.  When tuning the parameters, we used an Adam optimizer to optimize the learning rate and decay to get the best accuracy for our model.  Our accuracy is currently at 94% and we trying to further increase that.
+
+In the image below, we have an example of model trained with more than just two labels. This is an example of how inaccurate our model can be without finetuning any parameters. Our first goal was to beat this model as this serves as a baseline of a model that is essentially guessing the result.
+<div style="text-align: center;">
+  <img style="height: 200px;" alt="" src="badmodel.png">
+  </div>
+  <br><br>Figure 1: Example of model without finetuned hyperparameters
+
+  
+
+
 
 
 <br>
@@ -91,40 +102,64 @@ We primarily used loss as an indicator to understand how well our approach was d
   <div style="text-align: center;">
     <img style="height: 200px;" alt="" src="barchart1.png">
     </div>
+    Figure 2: Data distribution
     <br><br>
     <div style="text-align: center;">
       <img style="height: 200px;" alt="" src="table.png">
       </div>
+      Figure 3: Snapshot of training data set
       <br><br>
       <div style="text-align: center;">
         <img style="height: 200px;" alt="" src="table2.png">
         </div>
+        Figure 4: Snapshot of bounding box of mask per image
         <br><br>
         <div style="text-align: center;">
           <img style="height: 200px;" alt="" src="trainingloss.png">
           </div>
+          Figure 5: Training loss for final model
           <br><br>
-          <div style="text-align: center;">
-            <img style="height: 200px;" alt="" src="badmodel.png">
-            </div>
-            In the image above, we have an example of model trained with more than just two labels. This is an example of how inaccurate our model can be without finetuning any parameters. Our first goal was to beat this model as this serves as a baseline of a model that is essentially guessing the result.
+       
             <br><br>
 </div>
 
 <br><br>
 
 <!-- Results -->
-<h3>Qualitative results</h3>
+<h3>Qualitative Results</h3>
 <br><br>
-
+<div style="text-align: center;">
+  <img style="height: 200px;" alt="" src="detection2.png">
+  </div>
+  Figure 6: Example of an inaccurate result
+  <br><br>
+  <div style="text-align: center;">
+    <img style="height: 200px;" alt="" src="detection3.png">
+    </div>
+    Figure 7: Example of another inaccurate result
+    <br><br>
+   
 <!-- Main Results Figure --> 
 <div style="text-align: center;">
 <img style="height: 300px;" alt="" src="boundingbox.png">
 </div>
+Figure 8: Example of an accurate prediction 
 <br><br>
 
 <h3>Conclusion</h3>
 We may continue to  use the adam optimizer  but will  look  into adjusting the learning rate and  decay to see  if we can  get better results  from the  model. We will also look at other optimizers like Adadelta and see if we can get better results.Additionally, we could use another loss metric as well as print other valuable metrics  that we see dependent on what we change  in the model. Additionally, our model already seems to be doing well, but we may try seeing what other layers could  be used/if current layers can be modified to increase performance. All in all, we will continue to fine tune the parameters of optimizers and work with modifying the layers within the sequential model to see if we can get higher than 90%.
+<br><br>
+
+
+<h3>References</h3>
+<ul>
+  <li>
+    https://www.kaggle.com/wobotintelligence/face-mask-detection-dataset
+  </li>
+  <li>
+    https://arxiv.org/pdf/2008.08016.pdf
+  </li>
+</ul>
 <br><br>
 
 
