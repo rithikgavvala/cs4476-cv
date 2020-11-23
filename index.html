@@ -79,10 +79,10 @@ We then focused on building our model out. We had 2 convolution layers for extra
 <br><br>
 <!-- Results -->
 <h3>Experiments and results</h3>
-
-We primarily used loss as an indicator to understand how well our approach was doing. In our figure, we show the loss decreasing as our epochs increase. In addition, the bar plot shows the number of pictures with masks versos the number of pictures that don’t contain masks. The first baseline is the random model, which randomly picks between the two options. This gives us an accuracy of 50%. Afterwards, we built for sequential model with 2 convolutional layers.  When tuning the parameters, we used an Adam optimizer to optimize the learning rate and decay to get the best accuracy for our model.  Our accuracy is currently at 94% and we trying to further increase that.
-
-In the image below, we have an example of model trained with more than just two labels. This is an example of how inaccurate our model can be without finetuning any parameters. Our first goal was to beat this model as this serves as a baseline of a model that is essentially guessing the result.
+In order to conduct our experiments we primarily worked with the Kaggle dataset which consists of 6024 images.
+<br><br>
+We primarily used loss as an indicator to understand how well our approach was doing. In our figure, we show the loss decreasing as our epochs increase. In addition, the bar plot shows the number of pictures with masks versos the number of pictures that don’t contain masks. The first baseline is the random model, which randomly picks between the two options. This gives us an accuracy of 50%. 
+In the image below, we have an example of model trained with more than just two labels. This is an example of how inaccurate our model can be without finetuning any parameters. Our first goal was to beat this model as this serves as a baseline of a model that is essentially guessing the result.Afterwards, we focused on building a convolutional neural network. After some optimizations, we built for sequential model with 2 convolutional layers. These optimizations involved changing our optimizers, adding more convolutional and dense layers to our network, and increasing number of epochs. We saw that increasing the number of epochs was key, as more epochs allows for more fitting on the training data. When tuning the parameters, we also used an Adam optimizer to optimize the learning rate and decay to get the best accuracy for our model. Our accuracy is currently at 96%.
 <div style="text-align: center;">
   <img style="height: 200px;" alt="" src="badmodel.png">
   </div>
@@ -112,7 +112,7 @@ In the image below, we have an example of model trained with more than just two 
       <div style="text-align: center;">
         <img style="height: 200px;" alt="" src="table2.png">
         </div>
-        Figure 4: Snapshot of bounding box of mask per image
+        Figure 4: Snapshot of bounding box data for each image 
         <br><br>
         <div style="text-align: center;">
           <img style="height: 200px;" alt="" src="trainingloss.png">
@@ -147,8 +147,7 @@ Figure 8: Example of an accurate prediction
 <br><br>
 
 <h3>Conclusion</h3>
-We may continue to  use the adam optimizer  but will  look  into adjusting the learning rate and  decay to see  if we can  get better results  from the  model. We will also look at other optimizers like Adadelta and see if we can get better results.Additionally, we could use another loss metric as well as print other valuable metrics  that we see dependent on what we change  in the model. Additionally, our model already seems to be doing well, but we may try seeing what other layers could  be used/if current layers can be modified to increase performance. All in all, we will continue to fine tune the parameters of optimizers and work with modifying the layers within the sequential model to see if we can get higher than 90%.
-<br><br>
+Our model is able to accurately detect faces that are wearing face masks. Our system is able to identify someone wearing a mask, partially wearing a mask (not covering both mouth and nose), or not wearing a mask. Currently, our model is at a an accuracy of 96%. We can continue to experiment with optimizers and the number of layers in our model while trying not to overfit the data. Additionally, we can try implementing our system in a real world setting and determine if there are any issues with our system.<br><br>
 
 
 <h3>References</h3>
